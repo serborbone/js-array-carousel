@@ -56,3 +56,38 @@ let arrowBottom = '<div class="btn-arrow next"> <i class="fas fa-chevron-down"> 
 //inserisco le thumbnail e le frecce di scorrimento in thumb-container
 let thumbContainer = document.querySelector('.thumb-container');
 thumbContainer.innerHTML = insertThumbnail + arrowTop + arrowBottom;
+
+/***********************/
+
+let thumbContatore = 0;
+
+let overlaySelector = document.getElementsByClassName('overlay');
+let thumbSelector = document.getElementsByClassName('thumb');
+
+//imposto la prima thumbnail con la classe row-active
+thumbSelector[thumbContatore].classList.add('row-active');
+
+//imposto la prima thumbnail senza la classe overlay
+overlaySelector[thumbContatore].classList.add('d-none');
+
+//selezione il bottone con la freccia next
+let next = document.querySelector('.next');
+
+//al click della freccia next
+next.addEventListener('click',
+
+  function() {
+
+    thumbSelector[thumbContatore].classList.add('row-active');
+    overlaySelector[thumbContatore].classList.add('d-none');
+
+    thumbContatore++;
+    
+    thumbSelector[thumbContatore].classList.add('row-active');
+    overlaySelector[thumbContatore].classList.add('d-none');
+
+    thumbSelector[thumbContatore -1 ].classList.remove('row-active');
+    overlaySelector[thumbContatore -1].classList.remove('d-none');
+  }
+
+);
