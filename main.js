@@ -28,7 +28,7 @@ let insertItem = "";
 
 for (let i = 0; i < items.length; i++) {
 
-  insertItem += `<div class="item"> <img src="${items[i]}"> <div class="title"> <h1>${title[i]}</h1> <h2>${text[i]}</h2> </div> </div> `;
+  insertItem += `<div class="item d-none"> <img src="${items[i]}"> <div class="title"> <h1>${title[i]}</h1> <h2>${text[i]}</h2> </div> </div> `;
 
 }
 
@@ -59,7 +59,11 @@ thumbContainer.innerHTML = insertThumbnail + arrowTop + arrowBottom;
 
 /***********************/
 
+let itemContatore = 0;
 let thumbContatore = 0;
+
+let itemSelector = document.getElementsByClassName('item');
+itemSelector[itemContatore].classList.remove('d-none');
 
 /* ACCEDO agli elementi con la classe .overlay e .thumb*/
 let overlaySelector = document.getElementsByClassName('overlay');
@@ -85,13 +89,23 @@ next.addEventListener('click',
       //posso scorrere fino all'ultima thumb disponibile
       if (thumbContatore < thumbSelector.length -1) {
 
+          /* immagine grande rimuove la classe display none e viene mostrata */
+          itemSelector[itemContatore].classList.remove('d-none');
+
           thumbSelector[thumbContatore].classList.add('row-active');
           overlaySelector[thumbContatore].classList.add('d-none');
 
           thumbContatore++;
+          itemContatore++
+          
+          //l'immagine grande successiva viene mostrata
+          itemSelector[itemContatore].classList.remove('d-none');
           
           thumbSelector[thumbContatore].classList.add('row-active');
           overlaySelector[thumbContatore].classList.add('d-none');
+
+          /* l'immagine grande precedente aggiunge la classe display none */
+          itemSelector[itemContatore -1].classList.add('d-none');
 
           /* La thumb precedente rimuove la class row-active e il div overlay rimuove display none*/
           thumbSelector[thumbContatore -1 ].classList.remove('row-active');
@@ -99,11 +113,17 @@ next.addEventListener('click',
 
     } else {
 
+          //se la thumb selezionata supera l'ultima torno alla prima immagine grande
+          itemSelector[itemContatore].classList.add('d-none');
+
           //se la thumb selezionata supera l'ultima torno alla prima
           thumbSelector[thumbContatore].classList.remove('row-active');
           overlaySelector[thumbContatore].classList.remove('d-none');
 
-          thumbContatore = 0;
+          thumbContatore = 0; //torno alla prima thumb
+          itemContatore = 0; //torno alla prima immagine
+
+          itemSelector[itemContatore].classList.remove('d-none');
 
           thumbSelector[thumbContatore].classList.add('row-active');
           overlaySelector[thumbContatore].classList.add('d-none');
@@ -123,26 +143,44 @@ prev.addEventListener('click',
     function() {
 
         //se la thumbnail selezionata non è la prima posso tornare indietro
+        //posso tornare alla precendte immagine grande allo stesso modo
+
         if (thumbContatore > 0) {
-
-            thumbSelector[thumbContatore].classList.add('row-active');
-            overlaySelector[thumbContatore].classList.add('d-none');
-
-            thumbContatore--;
             
+            itemSelector[itemContatore].classList.remove('d-none');
+
             thumbSelector[thumbContatore].classList.add('row-active');
             overlaySelector[thumbContatore].classList.add('d-none');
 
+            thumbContatore--; //decremento l'indice di thumb
+            itemContatore--; //decremento l'indice delle immagini grandi
+            
+            //viene mostrata l'immagine precedente rimuovendo display-none
+            itemSelector[itemContatore].classList.remove('d-none');
+
+            thumbSelector[thumbContatore].classList.add('row-active');
+            overlaySelector[thumbContatore].classList.add('d-none');
+
+            //l'immagine successiva NON viene mostrata
+            itemSelector[itemContatore +1].classList.add('d-none');
+
+            //l'overlay' successivo NON viene mostrato e viene rimossa la classe row-active dalla thumb successiva
             thumbSelector[thumbContatore +1].classList.remove('row-active');
             overlaySelector[thumbContatore +1].classList.remove('d-none');
         
         } else {
 
+          //se la thumbnail selezionata è la prima posso tornare direttamente all'ultima immagine grande
+          itemSelector[itemContatore].classList.add('d-none');
+
             //se la thumbnail selezionata è la prima posso tornare direttamente all'ultima
             thumbSelector[thumbContatore].classList.remove('row-active');
           overlaySelector[thumbContatore].classList.remove('d-none');
-
+          
+          itemContatore = itemSelector.length - 1;
           thumbContatore = thumbSelector.length - 1;
+
+          itemSelector[itemContatore].classList.remove('d-none');
 
           thumbSelector[thumbContatore].classList.add('row-active');
           overlaySelector[thumbContatore].classList.add('d-none');
