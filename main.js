@@ -22,6 +22,8 @@ const text = [
     'Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam inventore eligendi ex ad ullam,',
 ]
 
+/* Inserisco le immagini nella sezione principale del container */
+
 let insertItem = "";
 
 for (let i = 0; i < items.length; i++) {
@@ -33,13 +35,24 @@ for (let i = 0; i < items.length; i++) {
 let imgContainer = document.querySelector('.img-container');
 imgContainer.innerHTML = insertItem;
 
+/* Inserisco le thumbnail nella sezione a destra del container */
+
 let insertThumbnail = "";
 
 for (let i = 0; i < items.length; i++) {
 
-  insertThumbnail += `<div class="thumb"> <img src="${items[i]}"></div> `;
+  insertThumbnail += `<div class="thumb"> <img src="${items[i]}"> <div class="overlay"></div> </div> `;
 
 }
 
+/* 
+Creo due variabili con gli elementi che creano le frecce di scorrimento 
+top e bottom che andranno in thumb-container
+*/
+
+let arrowTop = '<div class="btn-arrow prev"> <i class="fas fa-chevron-up"></i> </div>';
+let arrowBottom = '<div class="btn-arrow next"> <i class="fas fa-chevron-down"> </i></div>';
+
+//inserisco le thumbnail e le frecce di scorrimento in thumb-container
 let thumbContainer = document.querySelector('.thumb-container');
-thumbContainer.innerHTML = insertThumbnail;
+thumbContainer.innerHTML = insertThumbnail + arrowTop + arrowBottom;
